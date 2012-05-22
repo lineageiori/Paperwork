@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1337245046 source:c:\users\dylan wu\desktop\rtreetemplate\main.cpp
+	<stdio.h>
+	"RTree.h"
+
+1337246906 c:\users\dylan wu\desktop\rtreetemplate\rtree.h
+	<stdio.h>
+	<math.h>
+	<assert.h>
+	<stdlib.h>
+
