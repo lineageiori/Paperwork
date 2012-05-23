@@ -146,6 +146,10 @@ public:
     /// Is iterator pointing to valid data
     bool IsNotNull()                              { return (m_tos > 0); }
 
+    /// put root into m_stack
+
+
+
     /// Access the current data element. Caller must be sure iterator is not NULL first.
     DATATYPE& operator*()
     {
@@ -249,6 +253,10 @@ public:
 
     friend class RTree; // Allow hiding of non-public functions while allowing manipulation by logical owner
   };
+
+
+
+
 
   /// Get 'first' for iteration
   void GetFirst(Iterator& a_it)
@@ -472,7 +480,7 @@ RTREE_QUAL::RTree()
   // Since we are storing as union with non data branch
   ASSERT(sizeof(DATATYPE) == sizeof(void*) || sizeof(DATATYPE) == sizeof(int));
 
-  // Precomputed volumes of the unit spheres for the first few dimensions
+  // Precomputed volumes of the unit spheres for the few dimensions
   const float UNIT_SPHERE_VOLUMES[] = {
     0.000000f, 2.000000f, 3.141593f, // Dimension  0,1,2
     4.188790f, 4.934802f, 5.263789f, // Dimension  3,4,5
@@ -1542,6 +1550,7 @@ bool RTREE_QUAL::Overlap(Rect* a_rectA, Rect* a_rectB)
   }
   return true;
 }
+/*
 ///如果各維度都沒有交集就回答true
 RTREE_TEMPLATE
 bool RTREE_QUAL::DimNotOverlap(Rect* a_rectA, Rect* a_rectB)
@@ -1580,7 +1589,7 @@ bool RTREE_QUAL::DimContainIn(Rect* a_rectA, Rect* a_rectB)
   }
   return false;
 }
-
+*/
 
 
 

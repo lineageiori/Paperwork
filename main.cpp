@@ -4,22 +4,15 @@
 // This is a direct port of the C version of the RTree test program.
 //
 
-#include <stdio.h>
-#include "RTree.h"
+//#include <stdio.h>
 #include <iostream>
+#include "RTree.h"
 
+using namespace std;
 struct Rect ///矩陣規格 x維度給範圍 y as well
 {
   Rect()  {}
 
-  Rect(int X, int Y)
-  {
-    min[0] = X;
-    min[1] = Y;
-
-    max[0] = X;
-    max[1] = Y;
-  }
   Rect(int a_minX, int a_minY, int a_maxX, int a_maxY)
   {
     min[0] = a_minX;
@@ -29,16 +22,17 @@ struct Rect ///矩陣規格 x維度給範圍 y as well
     max[1] = a_maxY;
   }
 
+
   int min[2];
   int max[2];
 };
 
 struct Rect rects[] =
 {
-  Rect(2,2,5,6), // xmin, ymin, xmax, ymax (for 2 dimensional RTree)
-  Rect(4,1,7,3), //測交集
-  Rect(6,3,8,4), //測包含
-  Rect(6,1,8,4), //測完全不交
+  Rect(0, 0, 2, 2), // xmin, ymin, xmax, ymax (for 2 dimensional RTree)
+  Rect(5, 5, 7, 7),
+  Rect(8, 5, 9, 6),
+  Rect(7, 1, 9, 2),
 };
 
 int nrects = sizeof(rects) / sizeof(rects[0]); //總長度除掉一個矩陣的長度=>計算有多少矩陣
@@ -52,15 +46,10 @@ bool MySearchCallback(int id, void* arg)
   return true; // keep going
 }
 
+
 int main()
 {
   RTree<int, int, 2, float> tree; //產生一個R tree
-
-  //tree.Load("iD2T1M100C10");
-  Rect *ptA= &Rect[0];
-  Rect *ptB= &Rect[1];
-  cout<<"if the rectangle A overlap with B:"<<overlap(tpA,ptB)<<endl;
-
 
   int i, nhits;
   printf("nrects = %d\n", nrects); //有多少rectangle
@@ -75,9 +64,13 @@ int main()
   printf("Search resulted in %d hits\n", nhits);
 
   // Iterator test
-
   int itIndex = 0;
   RTree<int, int, 2, float>::Iterator it;    //給個iterator trace R-tree
+  //tree.Count();
+  //cout<<tree.Node.m_level<<endl;
+
+ cout<<tree.IsNull(it)<<endl;
+
   for( tree.GetFirst(it);
        !tree.IsNull(it);
        tree.GetNext(it) )
@@ -92,13 +85,32 @@ int main()
 
   // Iterator test, alternate syntax
   itIndex = 0;
-  tree.GetFirst(it);
+
+
+/*
+
+  int boundsMin[2] = {0,0};
+  int boundsMax[2] = {0,0};
+
+  it.GetBounds(boundsMin, boundsMax);
+  printf("it[%d] = (%d,%d,%d,%d)\n", itIndex++,boundsMin[0], boundsMin[1], boundsMax[0], boundsMax[1]);
+
+
+
+  /*
   while( !it.IsNull() )
   {
     int value = *it;
     ++it;
     printf("it[%d] %d\n", itIndex++, value);
   }
+*/
+
+
+
+
+
+
 
   getchar(); // Wait for keypress on exit so we can read console output
 
@@ -116,5 +128,4 @@ int main()
   // it[1] 1
   // it[2] 2
   // it[3] 3
-
 }
