@@ -8,7 +8,8 @@
 #include <math.h>
 #include <assert.h>
 #include <stdlib.h>
-
+#include <iostream>
+using namespace std;
 #define ASSERT assert // RTree uses ASSERT( condition )
 
 ///自行增加的部分
@@ -169,6 +170,10 @@ public:
     /// Find the next data element
     bool operator++()                             { return FindNextData(); }
 
+
+
+
+
     /// Get the bounds for this node
     void GetBounds(ELEMTYPE a_min[NUMDIMS], ELEMTYPE a_max[NUMDIMS])
     {
@@ -249,13 +254,52 @@ public:
     }
 
     StackElement m_stack[MAX_STACK];              ///< Stack as we are doing iteration instead of recursion
+
     int m_tos;                                    ///< Top Of Stack index
 
     friend class RTree; // Allow hiding of non-public functions while allowing manipulation by logical owner
   };
 
+  void NOBranch(Iterator& a_it){
+      a_it.Init();
+      Node* first = m_root;
+      cout<<"This node have "<<first->m_count<< "branchs"<<endl;
+  }
 
 
+  void ShowRelation(Iterator& a_it,int BranchTarget)
+  {
+      a_it.Init();
+      Node* first = m_root;
+     // m_root.m_branch[BranchTarget]
+     for(int count=0;count<first->m_count;count++){
+          if(count==BranchTarget){continue;}
+          else{
+          cout<<"Target compare with its sibling "<<count<<" overlap or not"<<
+          Overlap(&first->m_branch[BranchTarget].m_rect,&first->m_branch[count].m_rect)<<endl;
+          /// push 到某個container 再 pop 出來處理
+
+
+          cout<<"Target compare with its sibling "<<count<<" DimNotOverlap or not"<<
+          DimNotOverlap(&first->m_branch[BranchTarget].m_rect,&first->m_branch[count].m_rect)<<endl;
+          /// /*Keep Min-man skyline */
+          /// /*Keep Min-skyline */
+
+          cout<<"Target compare with its sibling "<<count<<" DimContainIn or not"<<
+          DimContainIn(&first->m_branch[BranchTarget].m_rect,&first->m_branch[count].m_rect)<<endl;
+          if(DimContainIn(&first->m_branch[BranchTarget].m_rect,&first->m_branch[count].m_rect)){
+            push(first,count);
+          }
+          /// /*push 到某個container 之後再給child用*/
+
+
+
+
+          cout<<endl;
+          }
+      }
+
+  }
 
 
   /// Get 'first' for iteration
@@ -1550,20 +1594,23 @@ bool RTREE_QUAL::Overlap(Rect* a_rectA, Rect* a_rectB)
   }
   return true;
 }
-/*
+
 ///如果各維度都沒有交集就回答true
 RTREE_TEMPLATE
 bool RTREE_QUAL::DimNotOverlap(Rect* a_rectA, Rect* a_rectB)
 {
   ASSERT(a_rectA && a_rectB);
-  bool Dim_overlap;
+  bool Dim_overlap=false;
   for(int index=0; index < NUMDIMS; ++index)
   {
 
-    if (a_rectA->m_min[index] > a_rectB->m_max[index] &&
+    if (a_rectA->m_min[index] > a_rectB->m_max[index] ||
         a_rectB->m_min[index] > a_rectA->m_max[index])
     {
       Dim_overlap = false;
+    }
+    else{
+      Dim_overlap = true;
     }
     if (Dim_overlap == true)
     {
@@ -1589,7 +1636,7 @@ bool RTREE_QUAL::DimContainIn(Rect* a_rectA, Rect* a_rectB)
   }
   return false;
 }
-*/
+
 
 
 
