@@ -33,6 +33,14 @@ struct Rect rects[] =
   Rect(5, 5, 7, 7),
   Rect(8, 5, 9, 6),
   Rect(7, 1, 9, 2),
+  /*Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  Rect(7, 1, 9, 2),
+  */
 };
 
 int nrects = sizeof(rects) / sizeof(rects[0]); //總長度除掉一個矩陣的長度=>計算有多少矩陣
@@ -65,11 +73,28 @@ int main()
 
   // Iterator test
   int itIndex = 0;
-  RTree<int, int, 2, float>::Iterator it;    //給個iterator trace R-tree
+  RTree<int, int, 2, float>::Iterator it1;    //給個iterator trace R-tree
   //tree.Count();
   //cout<<tree.Node.m_level<<endl;
 
- cout<<tree.IsNull(it)<<endl;
+  tree.NOBranch(it);
+  tree.ShowRelation(it,1);
+/*
+ cout<<"it1 is null? :"<<tree.IsNull(it1)<<endl;
+ cout<<"it2 is null? :"<<tree.IsNull(it2)<<endl;
+ tree.GetRoot(it1,0);
+ tree.GetRoot(it2,1);
+ cout<<"it1 is null? :"<<tree.IsNull(it1)<<endl;
+ cout<<"it2 is null? :"<<tree.IsNull(it2)<<endl;
+ int boundsMin[2] = {0,0};
+ int boundsMax[2] = {0,0};
+ it2.GetBounds(boundsMin, boundsMax);
+ cout<<"Root bound is "<<boundsMin[0]<<","<<boundsMin[1]<<","<<boundsMax[0]<<","<<boundsMax[1]<<endl;
+
+ tree.CompareRelation(it1.)
+
+
+/*
 
   for( tree.GetFirst(it);
        !tree.IsNull(it);
@@ -87,7 +112,7 @@ int main()
   itIndex = 0;
 
 
-/*
+
 
   int boundsMin[2] = {0,0};
   int boundsMax[2] = {0,0};
